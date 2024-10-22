@@ -10,7 +10,9 @@ public interface AnswerCheckerMaker {
 	public static final Map<String, AnswerCheckerMaker> makers = Map.<String, AnswerCheckerMaker>ofEntries(
 		new AbstractMap.SimpleImmutableEntry<>("ci", CaseInsensitiveAnswerChecker::new),
 		new AbstractMap.SimpleImmutableEntry<>("case_insensitive", CaseInsensitiveAnswerChecker::new),
-		new AbstractMap.SimpleImmutableEntry<>("literal", LiteralAnswerChecker::new)
+		new AbstractMap.SimpleImmutableEntry<>("literal", LiteralAnswerChecker::new),
+		new AbstractMap.SimpleImmutableEntry<>("cs", CaseSensitiveAnswerChecker::new),
+		new AbstractMap.SimpleImmutableEntry<>("case_sensitive", CaseSensitiveAnswerChecker::new)
 	);
 
 	public static AnswerChecker parseAnswer(String input) {
