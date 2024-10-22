@@ -23,7 +23,7 @@ public interface AnswerCheckerMaker {
 		if(end == -1)
 			return new CaseInsensitiveAnswerChecker(input);
 		
-		String checkerName = input.substring(1, end);
+		String checkerName = input.substring(1, end).toLowerCase();
 		AnswerCheckerMaker checkerType = makers.get(checkerName);
 		if(checkerType == null)
 			return new CaseInsensitiveAnswerChecker(input);
