@@ -3,6 +3,8 @@ package nanoquiz.checker;
 import java.util.AbstractMap;
 import java.util.Map;
 
+import nanoquiz.Main;
+
 @FunctionalInterface
 public interface AnswerCheckerMaker {
 	AnswerChecker make(String correctAnswer);
@@ -23,13 +25,17 @@ public interface AnswerCheckerMaker {
 			return new CaseInsensitiveAnswerChecker(input);
 
 		int end = input.indexOf(')');
-		if(end == -1)
+		if(end == -1) {
+			Main.log.warning(()->"Question has an opening bracket but no closing one.");
 			return new CaseInsensitiveAnswerChecker(input);
+		}
 		
 		String checkerName = input.substring(1, end).toLowerCase();
 		AnswerCheckerMaker checkerType = makers.get(checkerName);
-		if(checkerType == null)
+		if(checkerType == null) {
+			Main.log.warning(()->"Unknown answer checker: \"" + checkerName + "\".");
 			return new CaseInsensitiveAnswerChecker(input);
+		}
 		
 		return checkerType.make(input.substring(end+1));
 	}
