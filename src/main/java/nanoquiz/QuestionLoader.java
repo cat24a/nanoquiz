@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import nanoquiz.checker.CaseInsensitiveAnswerChecker;
+import nanoquiz.checker.AnswerCheckerMaker;
 
 public abstract class QuestionLoader {
     static void loadQuestions() {
@@ -30,7 +30,7 @@ public abstract class QuestionLoader {
                 if (question == null || answer == null) {
                     break;
                 }
-                Main.questions.add(new Question(question, new CaseInsensitiveAnswerChecker(answer)));
+                Main.questions.add(new Question(question, AnswerCheckerMaker.parseAnswer(answer)));
             }
         } catch(IOException e) {
             e.printStackTrace();
