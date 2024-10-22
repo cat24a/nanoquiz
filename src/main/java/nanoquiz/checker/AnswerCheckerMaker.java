@@ -12,7 +12,9 @@ public interface AnswerCheckerMaker {
 		new AbstractMap.SimpleImmutableEntry<>("case_insensitive", CaseInsensitiveAnswerChecker::new),
 		new AbstractMap.SimpleImmutableEntry<>("literal", LiteralAnswerChecker::new),
 		new AbstractMap.SimpleImmutableEntry<>("cs", CaseSensitiveAnswerChecker::new),
-		new AbstractMap.SimpleImmutableEntry<>("case_sensitive", CaseSensitiveAnswerChecker::new)
+		new AbstractMap.SimpleImmutableEntry<>("case_sensitive", CaseSensitiveAnswerChecker::new),
+		new AbstractMap.SimpleImmutableEntry<>("multi", MultipleAnswerCheckers::new),
+		new AbstractMap.SimpleImmutableEntry<>("multiple", MultipleAnswerCheckers::new)
 	);
 
 	public static AnswerChecker parseAnswer(String input) {
