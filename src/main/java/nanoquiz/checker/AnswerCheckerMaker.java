@@ -21,20 +21,24 @@ public interface AnswerCheckerMaker {
 	);
 
 	public static AnswerChecker parseAnswer(String input) {
+		return parseAnswer(input, CaseInsensitiveAnswerChecker::new);
+	}
+
+	public static AnswerChecker parseAnswer(String input, AnswerCheckerMaker defaultChecker) {
 		if(input.charAt(0) != '(')
-			return new CaseInsensitiveAnswerChecker(input);
+			return defaultChecker.make(input);
 
 		int end = input.indexOf(')');
 		if(end == -1) {
 			Main.log.warning(()->"Question has an opening bracket but no closing one.");
-			return new CaseInsensitiveAnswerChecker(input);
+			return defaultChecker.make(input);
 		}
 		
 		String checkerName = input.substring(1, end).toLowerCase();
 		AnswerCheckerMaker checkerType = makers.get(checkerName);
 		if(checkerType == null) {
 			Main.log.warning(()->"Unknown answer checker: \"" + checkerName + "\".");
-			return new CaseInsensitiveAnswerChecker(input);
+			return defaultChecker.make(input);
 		}
 		
 		return checkerType.make(input.substring(end+1));
