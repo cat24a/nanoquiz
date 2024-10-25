@@ -4,7 +4,8 @@ public class UmlautAnswerChecker implements AnswerChecker {
     AnswerChecker checker;
 
     UmlautAnswerChecker(String input) {
-        checker =  AnswerCheckerMaker.parseAnswer(replaceUmlaut(input), CaseSensitiveAnswerChecker::new);
+        if(input.startsWith(" ")) input = input.substring(1);
+        checker = AnswerCheckerMaker.parseAnswer(replaceUmlaut(input), CaseSensitiveAnswerChecker::new);
     }
 
     @Override
