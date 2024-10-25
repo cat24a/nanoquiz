@@ -6,7 +6,7 @@
 
     <groupId>nanoquiz</groupId>
     <artifactId>nanoquiz</artifactId>
-    <version>24w43b</version>
+    <version>24w43c</version>
 
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
