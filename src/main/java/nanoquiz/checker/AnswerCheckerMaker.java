@@ -17,7 +17,8 @@ public interface AnswerCheckerMaker {
 		new AbstractMap.SimpleImmutableEntry<>("case_sensitive", CaseSensitiveAnswerChecker::new),
 		new AbstractMap.SimpleImmutableEntry<>("multi", MultipleAnswerCheckers::new),
 		new AbstractMap.SimpleImmutableEntry<>("multiple", MultipleAnswerCheckers::new),
-		new AbstractMap.SimpleImmutableEntry<>("renamed", RenamedAnswerChecker::new)
+		new AbstractMap.SimpleImmutableEntry<>("renamed", RenamedAnswerChecker::new),
+		new AbstractMap.SimpleImmutableEntry<>("umlaut", UmlautAnswerChecker::new)
 	);
 
 	public static AnswerChecker parseAnswer(String input) {
