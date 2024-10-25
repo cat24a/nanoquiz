@@ -50,7 +50,6 @@ public abstract class Main {
         Question question = chooseQuestion();
         while(true) {
             boolean good;
-            String correctAnswer;
             synchronized(answerNotifier) {
                 answer = null;
             }
