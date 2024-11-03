@@ -12,14 +12,14 @@ import java.util.logging.Logger;
 
 import com.electronwill.nightconfig.core.file.FileConfig;
 
+import nanoquiz.util.AsyncProvider;
 import nanoquiz.util.Timer;
 
 public abstract class Main {
     public static final Logger log = Logger.getLogger("nanoquiz");
     static UI ui;
     static List<Question> questions = new ArrayList<>();
-    static String answer;
-    private static final Object answerNotifier = new Object();
+    static AsyncProvider<String> answerProvider = new AsyncProvider<>();
     public static final Random random = new Random();
     public static Path workdir = Path.of(".");
     public static FileConfig config;
@@ -31,6 +31,7 @@ public abstract class Main {
         loadConfig();
         Updater.checkForUpdates();
         QuestionLoader.loadQuestions();
+        
         if(questions.size() == 0) {
             log.severe(()->"NO QUESTIONS");
             ui.setText("BRAK PYTAŃ", Color.RED, false, true);
@@ -49,17 +50,10 @@ public abstract class Main {
     static void doQuizThing() throws InterruptedException {
         Question question = chooseQuestion();
         while(true) {
-            boolean good;
-            synchronized(answerNotifier) {
-                answer = null;
-            }
             ui.setText(question.question, Color.BLACK, true, true);
-            synchronized(answerNotifier) {
-                while (answer == null) {
-                    answerNotifier.wait();
-                }
-                good = question.answer(answer);
-            }
+
+            String answer = answerProvider.await();
+            boolean good = question.answer(answer);
             
             if (good) {
                 ui.setText("DOBRZE!", Color.GREEN, false, false);
@@ -115,9 +109,6 @@ public abstract class Main {
     };
 
     public static void handleSubmit(String answer) {
-        synchronized(answerNotifier) {
-            Main.answer = answer;
-            answerNotifier.notifyAll();
-        }
+        answerProvider.provide(answer);
     }
 }
