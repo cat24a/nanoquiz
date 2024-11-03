@@ -3,7 +3,7 @@ package nanoquiz.util;
 import java.util.LinkedList;
 
 public class AsyncProvider<T> {
-	LinkedList<T> list = new LinkedList<>();
+	private LinkedList<T> list = new LinkedList<>();
 
 	public synchronized void provide(T data) {
 		list.add(data);
