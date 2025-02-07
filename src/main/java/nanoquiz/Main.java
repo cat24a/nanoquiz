@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Logger;
 
 import nanoquiz.util.AsyncProvider;
@@ -20,7 +19,6 @@ public abstract class Main {
     static UI ui;
     static List<Question> questions = new ArrayList<>();
     static AsyncProvider<String> answerProvider = new AsyncProvider<>();
-    public static final Random random = new Random();
     public static Path workdir = Path.of(".");
 
     public static void main(String[] args) throws InterruptedException, InvocationTargetException, IOException, ConfigParsingException {
