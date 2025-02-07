@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
-import com.electronwill.nightconfig.core.file.FileConfig;
-
 import nanoquiz.util.AsyncProvider;
 import nanoquiz.util.Timer;
 import nanoquiz.util.ConfigFileReader.ConfigParsingException;
