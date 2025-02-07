@@ -26,6 +26,8 @@ public interface AnswerCheckerMaker {
 	}
 
 	public static AnswerChecker parseAnswer(String input, AnswerCheckerMaker defaultChecker) {
+		if(input.charAt(0) == ' ') input = input.substring(1);
+
 		if(input.charAt(0) != '(')
 			return defaultChecker.make(input);
 

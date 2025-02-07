@@ -13,8 +13,6 @@ public class RenamedAnswerChecker implements AnswerChecker {
 			Main.log.warning(()->"Incorrect format for \"renamed\" answer checker");
 			checker = new CaseInsensitiveAnswerChecker("");
 		} else {
-			if(parts[1].startsWith(" "))
-				parts[1] = parts[1].substring(1);
 			checker = AnswerCheckerMaker.parseAnswer(parts[1]);
 		}
 	}

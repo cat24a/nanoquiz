@@ -7,8 +7,6 @@ public class MultipleAnswerCheckers implements AnswerChecker {
 		String[] elements = data.split(";");
 		checkers = new AnswerChecker[elements.length];
 		for(int i = 0; i < elements.length; i++) {
-			if(elements[i].startsWith(" "))
-				elements[i] = elements[i].substring(1);
 			checkers[i] = AnswerCheckerMaker.parseAnswer(elements[i]);
 		}
 	}
