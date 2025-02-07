@@ -16,6 +16,8 @@ public class Timer {
     }
 
     public void join() throws InterruptedException {
-        Thread.sleep(getTimeLeft());
+        long timeLeft = getTimeLeft();
+        if(timeLeft > 0)
+            Thread.sleep(timeLeft);
     }
 }
