@@ -20,7 +20,7 @@ public abstract class Updater {
     static final String updateDownloadUrl = "https://github.com/cat24a/nanoquiz";
 
     public static void checkForUpdates() {
-        if (Main.config.<Boolean>get("updates.check_for_updates")) {
+        if (Config.CHECK_FOR_UPDATES) {
             new Thread(Updater::run).start();
         }
     }

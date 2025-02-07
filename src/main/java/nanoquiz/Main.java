@@ -1,6 +1,7 @@
 package nanoquiz;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -14,6 +15,7 @@ import com.electronwill.nightconfig.core.file.FileConfig;
 
 import nanoquiz.util.AsyncProvider;
 import nanoquiz.util.Timer;
+import nanoquiz.util.ConfigFileReader.ConfigParsingException;
 
 public abstract class Main {
     public static final Logger log = Logger.getLogger("nanoquiz");
@@ -22,13 +24,12 @@ public abstract class Main {
     static AsyncProvider<String> answerProvider = new AsyncProvider<>();
     public static final Random random = new Random();
     public static Path workdir = Path.of(".");
-    public static FileConfig config;
 
-    public static void main(String[] args) throws InterruptedException, InvocationTargetException {
+    public static void main(String[] args) throws InterruptedException, InvocationTargetException, IOException, ConfigParsingException {
         ui = new UI(Thread.currentThread());
         ui.setText("Uruchamianie NanoQuiz...", Color.GRAY, false, true);
         setupFS();
-        loadConfig();
+        Config.loadConfig();
         Updater.checkForUpdates();
         QuestionLoader.loadQuestions();
         
@@ -57,15 +58,15 @@ public abstract class Main {
             
             if (good) {
                 ui.setText("DOBRZE!", Color.GREEN, false, false);
-                Thread.sleep(config.<Integer>get("delay.good"));
+                Thread.sleep(Config.GOOD_DELAY);
             } else {
                 ui.setText("ŹLE: " + question.answerChecker.getCorrectAnswer(), Color.RED, false, false);
-                Thread.sleep(config.<Integer>get("delay.bad"));
+                Thread.sleep(Config.BAD_DELAY);
             }
-            if(config.<Integer>get("delay.cooldown") != 0) {
+            if(Config.COOLDOWN != 0) {
                 ui.hide();
             }
-            Timer timer = new Timer(config.<Integer>get("delay.cooldown"));
+            Timer timer = new Timer(Config.COOLDOWN);
             question = chooseQuestion();
             timer.join();
             
@@ -78,18 +79,11 @@ public abstract class Main {
         } catch(URISyntaxException e) {}
     }
 
-    static void loadConfig() {
-        config = FileConfig.builder(workdir.resolve("nq-config.toml"))
-                           .defaultResource("/nanoquiz/default-config.toml")
-                           .build();
-        config.load();
-    }
-
     static Question chooseQuestion() {
         Collections.shuffle(questions);
         Question best = null;
         float bestDifficulty = Float.NEGATIVE_INFINITY;
-        int checkedAmount = (int) (questions.size()*config.<Double>get("question_selector.confidence").floatValue());
+        int checkedAmount = (int) (questions.size() * Config.CONFIDENCE);
         if(checkedAmount > questions.size()){
             checkedAmount = questions.size();
         }
@@ -99,7 +93,7 @@ public abstract class Main {
         for(int i = 0; i < checkedAmount; i++) {
             Question question = questions.get(i);
             float difficulty = (float) (System.currentTimeMillis() - question.lastQuizzed);
-            difficulty -= question.score * config.<Double>get("question_selector.score_factor").floatValue();
+            difficulty -= question.score * Config.SCORE_FACTOR;
             if(difficulty > bestDifficulty) {
                 best = question;
                 bestDifficulty = difficulty;
