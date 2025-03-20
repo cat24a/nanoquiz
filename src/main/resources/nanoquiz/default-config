@@ -1,0 +1,7 @@
+score_decay 0.5
+score_factor 10000000
+confidence 0.5
+
+delay_good 1000
+delay_bad 5000
+cooldown 2000

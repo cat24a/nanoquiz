@@ -6,7 +6,7 @@
 
     <groupId>nanoquiz</groupId>
     <artifactId>nanoquiz</artifactId>
-    <version>24w43c</version>
+    <version>25w12a</version>
 
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
@@ -55,13 +55,7 @@
         </plugins>
     </build>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.electronwill.night-config</groupId>
-            <artifactId>toml</artifactId>
-            <version>3.8.1</version>
-        </dependency>
-    
+    <dependencies>    
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>

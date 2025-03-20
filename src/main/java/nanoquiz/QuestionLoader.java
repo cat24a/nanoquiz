@@ -22,8 +22,7 @@ public abstract class QuestionLoader {
     }
 
     static void parseSimpleQuiz(File file) throws FileNotFoundException {
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        try {
+        try(BufferedReader reader = new BufferedReader(new FileReader(file));) {
             while (true) {
                 String question = reader.readLine();
                 String answer = reader.readLine();
@@ -34,12 +33,6 @@ public abstract class QuestionLoader {
             }
         } catch(IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                reader.close();
-            } catch(IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

@@ -16,11 +16,12 @@ import org.json.JSONObject;
 
 public abstract class Updater {
     static final String updatesApiUriAsString = "https://api.github.com/repos/cat24a/nanoquiz/releases/latest";
-    public static final String VERSION = "24w43c";
+    public static final String VERSION = "25w12a";
     static final String updateDownloadUrl = "https://github.com/cat24a/nanoquiz";
 
     public static void checkForUpdates() {
-        if (Main.config.<Boolean>get("updates.check_for_updates")) {
+        if (Config.CHECK_FOR_UPDATES) {
+            Main.log.info(() -> "Checking for updates…");
             new Thread(Updater::run).start();
         }
     }
@@ -64,7 +65,7 @@ public abstract class Updater {
             JFrame window = new JFrame("Aktualizacja NanoQuiz");
             window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             window.setLocationRelativeTo(null);
-            JLabel label = new JLabel("<html><p>Dostępna jest nowa wersja NanoQuiz. Pobierz ją tu: " + updateDownloadUrl + "</p><p>Możesz ukryć tą wiadomość w ustawieniach programu.</p></html>");
+            JLabel label = new JLabel("<html><p>Dostępna jest nowa wersja NanoQuiz. Pobierz ją tu: " + updateDownloadUrl + "</p><p>Możesz ukryć tę wiadomość w ustawieniach programu.</p></html>");
             label.setPreferredSize(new Dimension(350, 100));
             window.add(label);
             window.pack();

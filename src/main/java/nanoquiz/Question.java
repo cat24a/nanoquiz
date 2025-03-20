@@ -15,7 +15,7 @@ public class Question {
 
     public boolean answer(String answer) {
         lastQuizzed = System.currentTimeMillis();
-        float scoreDecay = Main.config.<Double>get("question_selector.score_decay").floatValue();
+        float scoreDecay = Config.SCORE_DECAY;
         score *= 1-scoreDecay;
         if(answerChecker.check(answer)) {
             score += scoreDecay;
