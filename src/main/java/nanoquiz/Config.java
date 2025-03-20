@@ -1,9 +1,10 @@
 package nanoquiz;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Map;
-
-import nanoquiz.util.ConfigFileReader;
+import java.io.InputStream;
+import java.util.Properties;
 
 public abstract /*final*/ class Config {
 	public static boolean CHECK_FOR_UPDATES;
@@ -16,17 +17,28 @@ public abstract /*final*/ class Config {
 	public static int BAD_DELAY;
 	public static int COOLDOWN;
 
-	public static void loadConfig() throws IOException, ConfigFileReader.ConfigParsingException, NullPointerException {
-		Map<String, String> configData = ConfigFileReader.readConfigFile(Main.workdir.resolve("config.txt").toFile());
+	public static Properties config;
 
-		CHECK_FOR_UPDATES = Map.of("true", true, "false", false).get(configData.getOrDefault("check for updates", "true"));
+	public static void loadConfig() throws IOException {
+		config = new Properties();
+		try (InputStream is = Config.class.getResourceAsStream("default-config")) {
+			config.load(is);
+		}
+		try (InputStream is = new FileInputStream(Main.workdir.resolve("nq-config").toFile())) {
+			Main.log.info(()->"Config file found — reading config from file.");
+			config.load(is);
+		} catch (FileNotFoundException e) {
+			Main.log.info(()->"No config file found — using default options.");
+		}
 
-		SCORE_DECAY = Float.parseFloat(configData.getOrDefault("score decay", "0.5"));
-		SCORE_FACTOR = Float.parseFloat(configData.getOrDefault("score factor", "10000000"));
-		CONFIDENCE = Float.parseFloat(configData.getOrDefault("confidence", "1"));
+		CHECK_FOR_UPDATES = config.getProperty("no_update_check") == null;
 
-		GOOD_DELAY = Integer.parseInt(configData.getOrDefault("good delay", "1000"));
-		BAD_DELAY = Integer.parseInt(configData.getOrDefault("bad delay", "5000"));
-		COOLDOWN = Integer.parseInt(configData.getOrDefault("cooldown", "2000"));
+		SCORE_DECAY = Float.parseFloat(config.getProperty("score_decay"));
+		SCORE_FACTOR = Float.parseFloat(config.getProperty("score_factor"));
+		CONFIDENCE = Float.parseFloat(config.getProperty("confidence"));
+
+		GOOD_DELAY = Integer.parseInt(config.getProperty("delay_good"));
+		BAD_DELAY = Integer.parseInt(config.getProperty("delay_bad"));
+		COOLDOWN = Integer.parseInt(config.getProperty("cooldown"));
 	}
 }

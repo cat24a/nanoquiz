@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 import nanoquiz.util.AsyncProvider;
 import nanoquiz.util.Timer;
-import nanoquiz.util.ConfigFileReader.ConfigParsingException;
 
 public abstract class Main {
     public static final Logger log = Logger.getLogger("nanoquiz");
@@ -21,9 +20,10 @@ public abstract class Main {
     static AsyncProvider<String> answerProvider = new AsyncProvider<>();
     public static Path workdir = Path.of(".");
 
-    public static void main(String[] args) throws InterruptedException, InvocationTargetException, IOException, ConfigParsingException {
+    public static void main(String[] args) throws InterruptedException, InvocationTargetException, IOException {
         ui = new UI(Thread.currentThread());
         ui.setText("Uruchamianie NanoQuiz...", Color.GRAY, false, true);
+        
         setupFS();
         Config.loadConfig();
         Updater.checkForUpdates();

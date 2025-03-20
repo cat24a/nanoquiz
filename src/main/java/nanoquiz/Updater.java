@@ -21,6 +21,7 @@ public abstract class Updater {
 
     public static void checkForUpdates() {
         if (Config.CHECK_FOR_UPDATES) {
+            Main.log.info(() -> "Checking for updates…");
             new Thread(Updater::run).start();
         }
     }
