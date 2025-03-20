@@ -31,7 +31,7 @@ public class DesktopUI implements UI {
     JTextField answer;
     JButton confirm;
     
-    public DesktopUI(Thread backend) throws InterruptedException, InvocationTargetException {
+    public DesktopUI(QuitHandler quitHandler) throws InterruptedException, InvocationTargetException {
         ActionListener confirmAction = event->{
             answer.setEnabled(false);
             confirm.setEnabled(false);
@@ -42,8 +42,8 @@ public class DesktopUI implements UI {
         WindowListener windowListener = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
-                if (backend != null) {
-                    backend.interrupt();
+                if (quitHandler != null) {
+                    quitHandler.handleQuit();
                 }
             }
         };

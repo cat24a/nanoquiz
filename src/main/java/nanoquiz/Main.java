@@ -23,7 +23,7 @@ public abstract class Main {
     public static Path workdir = Path.of(".");
 
     public static void main(String[] args) throws InterruptedException, InvocationTargetException, IOException {
-        ui = new DesktopUI(Thread.currentThread());
+        ui = new DesktopUI(Thread.currentThread()::interrupt);
         ui.setText("Uruchamianie NanoQuiz...", Color.GRAY, false, true);
         
         setupFS();
