@@ -88,7 +88,7 @@ public abstract class Main {
         if(checkedAmount > questions.size()){
             checkedAmount = questions.size();
         }
-        if(checkedAmount == 0) {
+        if(checkedAmount <= 0) {
             checkedAmount = 1;
         }
         for(int i = 0; i < checkedAmount; i++) {
