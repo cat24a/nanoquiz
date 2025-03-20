@@ -70,6 +70,11 @@ public abstract class Main {
     }
 
     static void setupFS() {
+        if(workdir.resolve("nanoquiz-workdir-here").toFile().exists()) {
+            log.info(()->"Found workdir override - skipping workdir config.");
+            return;
+        }
+
         try {
             workdir = Path.of(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
         } catch(URISyntaxException e) {}
