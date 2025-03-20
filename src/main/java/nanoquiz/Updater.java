@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 public abstract class Updater {
     static final String updatesApiUriAsString = "https://api.github.com/repos/cat24a/nanoquiz/releases/latest";
-    public static final String VERSION = "24w43c";
+    public static final String VERSION = "25w12a";
     static final String updateDownloadUrl = "https://github.com/cat24a/nanoquiz";
 
     public static void checkForUpdates() {
