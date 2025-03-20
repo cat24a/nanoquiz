@@ -65,7 +65,7 @@ public abstract class Updater {
             JFrame window = new JFrame("Aktualizacja NanoQuiz");
             window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             window.setLocationRelativeTo(null);
-            JLabel label = new JLabel("<html><p>Dostępna jest nowa wersja NanoQuiz. Pobierz ją tu: " + updateDownloadUrl + "</p><p>Możesz ukryć tą wiadomość w ustawieniach programu.</p></html>");
+            JLabel label = new JLabel("<html><p>Dostępna jest nowa wersja NanoQuiz. Pobierz ją tu: " + updateDownloadUrl + "</p><p>Możesz ukryć tę wiadomość w ustawieniach programu.</p></html>");
             label.setPreferredSize(new Dimension(350, 100));
             window.add(label);
             window.pack();
