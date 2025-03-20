@@ -1,6 +1,7 @@
 package nanoquiz;
 
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
@@ -10,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
+import nanoquiz.ui.CLI;
 import nanoquiz.ui.DesktopUI;
 import nanoquiz.ui.UI;
 import nanoquiz.util.Timer;
@@ -21,7 +23,15 @@ public abstract class Main {
     public static Path workdir = Path.of(".");
 
     public static void main(String[] args) throws InterruptedException, InvocationTargetException, IOException {
-        ui = new DesktopUI(Thread.currentThread()::interrupt);
+        try {
+            ui = new DesktopUI(Thread.currentThread()::interrupt);
+        } catch(InvocationTargetException e) {
+            if(e.getCause() instanceof HeadlessException)
+            ui = new CLI();
+            else
+            throw e;
+        }
+        
         ui.setText("Uruchamianie NanoQuiz...", Color.GRAY, false, true);
         
         setupFS();
