@@ -1,4 +1,4 @@
-package nanoquiz;
+package nanoquiz.ui;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -8,6 +8,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import nanoquiz.Main;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,7 +22,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.lang.reflect.InvocationTargetException;
 
-public class UI {
+public class DesktopUI implements UI {
     public static final Dimension SIZE = new Dimension(400, 100);
     public static final int INPUT_HEIGHT = 40;
     JFrame window;
@@ -29,7 +31,7 @@ public class UI {
     JTextField answer;
     JButton confirm;
     
-    public UI(Thread backend) throws InterruptedException, InvocationTargetException {
+    public DesktopUI(Thread backend) throws InterruptedException, InvocationTargetException {
         ActionListener confirmAction = event->{
             answer.setEnabled(false);
             confirm.setEnabled(false);

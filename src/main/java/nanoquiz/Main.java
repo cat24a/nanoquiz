@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
+import nanoquiz.ui.DesktopUI;
+import nanoquiz.ui.UI;
 import nanoquiz.util.AsyncProvider;
 import nanoquiz.util.Timer;
 
@@ -21,7 +23,7 @@ public abstract class Main {
     public static Path workdir = Path.of(".");
 
     public static void main(String[] args) throws InterruptedException, InvocationTargetException, IOException {
-        ui = new UI(Thread.currentThread());
+        ui = new DesktopUI(Thread.currentThread());
         ui.setText("Uruchamianie NanoQuiz...", Color.GRAY, false, true);
         
         setupFS();
