@@ -1,16 +1,5 @@
 package nanoquiz.ui;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
-import nanoquiz.Main;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -22,6 +11,18 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.lang.reflect.InvocationTargetException;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import nanoquiz.Main;
+import nanoquiz.util.AsyncProvider;
+
 public class DesktopUI implements UI {
     public static final Dimension SIZE = new Dimension(400, 100);
     public static final int INPUT_HEIGHT = 40;
@@ -30,13 +31,15 @@ public class DesktopUI implements UI {
     JLabel question;
     JTextField answer;
     JButton confirm;
+    AsyncProvider<String> answerProvider = new AsyncProvider<>();
+
     
     public DesktopUI(QuitHandler quitHandler) throws InterruptedException, InvocationTargetException {
         ActionListener confirmAction = event->{
             answer.setEnabled(false);
             confirm.setEnabled(false);
             Main.log.fine(()->"Submitted answer: " + answer.getText());
-            Main.handleSubmit(answer.getText());
+            answerProvider.provide(answer.getText());
         };
 
         WindowListener windowListener = new WindowAdapter() {
@@ -80,9 +83,10 @@ public class DesktopUI implements UI {
         });
     }
 
+    @Override
     public void setText(String text, Color textColor, boolean inputEnabled, boolean resetInput) {
         SwingUtilities.invokeLater(()->{
-            question.setText("<html><p>" + text + "</html></p>");
+            question.setText("<html><p>" + text + "</p></html>");
             question.setForeground(textColor);
             if(resetInput) {
                 answer.setText("");
@@ -96,9 +100,15 @@ public class DesktopUI implements UI {
         });
     }
 
+    @Override
     public void hide() {
         SwingUtilities.invokeLater(()->{
             window.setVisible(false);
         });
+    }
+
+    @Override
+    public String getAnswer() throws InterruptedException {
+        return answerProvider.await();
     }
 }

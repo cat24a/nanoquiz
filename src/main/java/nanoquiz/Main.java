@@ -12,14 +12,12 @@ import java.util.logging.Logger;
 
 import nanoquiz.ui.DesktopUI;
 import nanoquiz.ui.UI;
-import nanoquiz.util.AsyncProvider;
 import nanoquiz.util.Timer;
 
 public abstract class Main {
     public static final Logger log = Logger.getLogger("nanoquiz");
     static UI ui;
     static List<Question> questions = new ArrayList<>();
-    static AsyncProvider<String> answerProvider = new AsyncProvider<>();
     public static Path workdir = Path.of(".");
 
     public static void main(String[] args) throws InterruptedException, InvocationTargetException, IOException {
@@ -51,7 +49,7 @@ public abstract class Main {
         while(true) {
             ui.setText(question.question, Color.BLACK, true, true);
 
-            String answer = answerProvider.await();
+            String answer = ui.getAnswer();
             boolean good = question.answer(answer);
             
             if (good) {
@@ -104,8 +102,4 @@ public abstract class Main {
         }
         return best;
     };
-
-    public static void handleSubmit(String answer) {
-        answerProvider.provide(answer);
-    }
 }
